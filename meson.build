@@ -3,8 +3,10 @@ project(
   ['c', 'rust'],
   version: '0.1.0',
   meson_version: '>= 0.59',
-  # license: 'MIT',
+  license: 'GPLv3'
 )
+
+subproject('blueprint-compiler', required: true)
 
 i18n = import('i18n')
 gnome = import('gnome')
@@ -48,6 +50,7 @@ endif
 
 # Convert the app id to a GNOME style path identifier
 path_identifier = '/' + application_id.replace('.', '/')
+base_path_identifier = '/' + base_id.replace('.', '/')
 
 meson.add_dist_script(
   'build-aux/dist-vendor.sh',
