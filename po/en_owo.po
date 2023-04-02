@@ -1,0 +1,40 @@
+#: data/app.desktop.in.in:3
+msgid "tauOS Rust Template"
+msgstr ""
+
+#: data/app.desktop.in.in:4
+msgid "A template for tauOS apps written in Rust"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/app.desktop.in.in:10
+msgid "Gnome;GTK;"
+msgstr ""
+
+#: data/ui/window.blp:5
+msgid "Preferences"
+msgstr ""
+
+#: data/ui/window.blp:6
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: data/ui/window.blp:7
+msgid "About tauOS Rust Template"
+msgstr ""
+
+#: data/ui/window.blp:27
+msgid "Hello, World!"
+msgstr ""
+
+#: data/ui/window.blp:30
+msgid "This is a sample app using Helium technologies."
+msgstr ""
+
+#: src/application.rs:91
+msgid "Rust Template"
+msgstr ""
+
+#: src/application.rs:98
+msgid "translator-credits"
+msgstr ""
