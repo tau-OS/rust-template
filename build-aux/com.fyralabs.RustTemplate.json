@@ -1,5 +1,5 @@
 {
-    "id": "com.fyralabs.RustTemplate.Devel",
+    "id": "com.fyralabs.RustTemplate",
     "runtime": "com.fyralabs.Platform",
     "runtime-version": "stable",
     "sdk": "com.fyralabs.Sdk",
@@ -7,15 +7,11 @@
         "org.freedesktop.Sdk.Extension.rust-stable",
         "org.freedesktop.Sdk.Extension.llvm15"
     ],
-    "desktop-file-name-suffix": " (Development)",
     "command": "com.fyralabs.RustTemplate",
     "finish-args": [
         "--socket=fallback-x11",
         "--socket=wayland",
         "--device=dri",
-        "--env=RUST_LOG=rust-template=debug",
-        "--env=G_MESSAGES_DEBUG=none",
-        "--env=RUST_BACKTRACE=1"
     ],
     "build-options": {
         "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm15/bin",
@@ -39,7 +35,7 @@
             "buildsystem": "meson",
             "run-tests": true,
             "config-opts": [
-                "-Dprofile=development"
+                "-Dprofile=default"
             ],
             "sources": [
                 {
