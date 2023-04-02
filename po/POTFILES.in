@@ -1,0 +1,6 @@
+data/com.fyralabs.RustTemplate.desktop.in.in
+data/com.fyralabs.RustTemplate.gschema.xml.in
+data/com.fyralabs.RustTemplate.metainfo.xml.in.in
+data/resources/ui/shortcuts.ui
+data/resources/ui/window.ui
+src/application.rs
