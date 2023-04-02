@@ -7,20 +7,9 @@ use crate::application::Application;
 mod imp {
     use super::*;
 
-    #[derive(Debug, gtk::CompositeTemplate)]
-    #[template(resource = "/com/fyralabs/RustTemplate/ui/window.ui")]
-    pub struct ApplicationWindow {
-        #[template_child]
-        pub headerbar: TemplateChild<gtk::HeaderBar>,
-    }
-
-    impl Default for ApplicationWindow {
-        fn default() -> Self {
-            Self {
-                headerbar: TemplateChild::default(),
-            }
-        }
-    }
+    #[derive(Debug, Default, gtk::CompositeTemplate)]
+    #[template(resource = "/com/fyralabs/RustTemplate/window.ui")]
+    pub struct ApplicationWindow {}
 
     #[glib::object_subclass]
     impl ObjectSubclass for ApplicationWindow {
