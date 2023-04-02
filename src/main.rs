@@ -4,10 +4,20 @@ mod config;
 mod window;
 
 use gettextrs::{gettext, LocaleCategory};
-use gtk::{gio, glib};
+use gtk::gio::ffi::{g_resources_register, GResource};
+use gtk::glib;
 
 use self::application::ExampleApplication;
-use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
+use self::config::{GETTEXT_PACKAGE, LOCALEDIR};
+
+#[link(name = "resources")]
+extern "C" {
+    fn resources_get_resource() -> *mut GResource;
+}
+
+pub fn handle_resources() {
+    unsafe { g_resources_register(resources_get_resource()) }
+}
 
 fn main() -> glib::ExitCode {
     // Initialize logger
@@ -20,8 +30,7 @@ fn main() -> glib::ExitCode {
 
     glib::set_application_name(&gettext("Rust Template"));
 
-    let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
-    gio::resources_register(&res);
+    handle_resources();
 
     let app = ExampleApplication::default();
     app.run()

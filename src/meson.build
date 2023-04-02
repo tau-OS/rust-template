@@ -31,6 +31,7 @@ else
 endif
 
 cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
+cargo_env += [ 'TARGET_DIR=' + RESOURCES_DIR ]
 
 cargo_build = custom_target(
   'cargo-build',
