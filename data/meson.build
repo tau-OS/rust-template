@@ -18,7 +18,7 @@ desktop_file = i18n.merge_file(
     output: application_id + '.desktop.in',
     configuration: {
       'icon': application_id,
-      'command': application_id,
+      'command': base_id,
     },
   ),
   output: application_id + '.desktop',

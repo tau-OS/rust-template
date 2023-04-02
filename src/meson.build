@@ -47,7 +47,7 @@ cargo_build = custom_target(
   'cargo-build',
   build_by_default: true,
   build_always_stale: true,
-  output: application_id,
+  output: base_id,
   console: true,
   install: true,
   install_dir: bindir,
