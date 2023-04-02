@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Rust Template
-Comment=Write a GTK + Rust application
+Name=tauOS Rust Template
+Comment=A template for tauOS apps written in Rust
 Type=Application
-Exec=RustTemplate
+Exec=@command@
 Terminal=false
 Categories=GNOME;GTK;
 # Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!

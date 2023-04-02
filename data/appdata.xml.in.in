@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>@app-id@</id>
+  <metadata_license>CC0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>tauOS Rust Template</name>
+  <summary>A template for tauOS apps written in Rust</summary>
+  <description>
+    <p>A boilerplate template for tauOS apps written in Rust. It uses Meson as build system and has Flatpak support by default.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/tau-os/rust-template/raw/main/data/shot.png</image>
+      <caption>Main Window</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/tau-os/rust-template</url>
+  <url type="bugtracker">https://github.com/tau-os/rust-template/issues</url>
+  <content_rating type="oars-1.0" />
+  <releases>
+    <release version="0.1.0" date="2023-01-01" />
+  </releases>
+  <developer_name>tauOS Developers</developer_name>
+  <translation type="gettext">@gettext-package@</translation>
+  <launchable type="desktop-id">@app-id@.desktop</launchable>
+</component>
