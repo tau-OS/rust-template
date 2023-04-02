@@ -7,7 +7,7 @@ use gettextrs::{gettext, LocaleCategory};
 use gtk::gio::ffi::{g_resources_register, GResource};
 use gtk::glib;
 
-use self::application::ExampleApplication;
+use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR};
 
 #[link(name = "resources")]
@@ -32,6 +32,6 @@ fn main() -> glib::ExitCode {
 
     handle_resources();
 
-    let app = ExampleApplication::default();
+    let app = Application::default();
     app.run()
 }

@@ -1,86 +1,71 @@
 use gettextrs::gettext;
 use log::{debug, info};
 
-use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, gio, glib};
+use gtk::{gio, glib};
+use he::prelude::*;
+use he::subclass::prelude::*;
 
-use crate::config::{APP_ID, PKGDATADIR, PROFILE, VERSION};
-use crate::window::ExampleApplicationWindow;
+use crate::config::{APP_ID, APP_PATH, NAME_SUFFIX, VERSION};
+use crate::window::ApplicationWindow;
 
 mod imp {
     use super::*;
-    use glib::WeakRef;
-    use once_cell::sync::OnceCell;
 
     #[derive(Debug, Default)]
-    pub struct ExampleApplication {
-        pub window: OnceCell<WeakRef<ExampleApplicationWindow>>,
-    }
+    pub struct Application {}
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ExampleApplication {
-        const NAME: &'static str = "ExampleApplication";
-        type Type = super::ExampleApplication;
-        type ParentType = gtk::Application;
+    impl ObjectSubclass for Application {
+        const NAME: &'static str = "Application";
+        type Type = super::Application;
+        type ParentType = he::Application;
     }
 
-    impl ObjectImpl for ExampleApplication {}
-
-    impl ApplicationImpl for ExampleApplication {
+    impl ObjectImpl for Application {}
+    impl ApplicationImpl for Application {
         fn activate(&self) {
-            debug!("GtkApplication<ExampleApplication>::activate");
+            debug!("HeApplication<Application>::activate");
             self.parent_activate();
             let app = self.obj();
 
-            if let Some(window) = self.window.get() {
-                let window = window.upgrade().unwrap();
-                window.present();
-                return;
-            }
-
-            let window = ExampleApplicationWindow::new(&app);
-            self.window
-                .set(window.downgrade())
-                .expect("Window already set.");
-
-            app.main_window().present();
+            app.active_window()
+                .unwrap_or(ApplicationWindow::new(&app).upcast())
+                .present();
         }
 
         fn startup(&self) {
-            debug!("GtkApplication<ExampleApplication>::startup");
+            debug!("HeApplication<Application>::startup");
             self.parent_startup();
             let app = self.obj();
 
             // Set icons for shell
             gtk::Window::set_default_icon_name(APP_ID);
 
-            app.setup_css();
-            app.setup_gactions();
+            app.setup_actions();
             app.setup_accels();
         }
     }
 
-    impl GtkApplicationImpl for ExampleApplication {}
+    impl GtkApplicationImpl for Application {}
+    impl HeApplicationImpl for Application {}
 }
 
 glib::wrapper! {
-    pub struct ExampleApplication(ObjectSubclass<imp::ExampleApplication>)
+    pub struct Application(ObjectSubclass<imp::Application>)
         @extends gio::Application, gtk::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 }
 
-impl ExampleApplication {
-    fn main_window(&self) -> ExampleApplicationWindow {
-        self.imp().window.get().unwrap().upgrade().unwrap()
-    }
-
-    fn setup_gactions(&self) {
+impl Application {
+    fn setup_actions(&self) {
         // Quit
         let action_quit = gio::ActionEntry::builder("quit")
             .activate(move |app: &Self, _, _| {
                 // This is needed to trigger the delete event and saving the window state
-                app.main_window().close();
+                app.active_window()
+                    .expect("Expected an Active Window")
+                    .close();
                 app.quit();
             })
             .build();
@@ -100,50 +85,38 @@ impl ExampleApplication {
         self.set_accels_for_action("window.close", &["<Control>w"]);
     }
 
-    fn setup_css(&self) {
-        let provider = gtk::CssProvider::new();
-        provider.load_from_resource("/com/fyralabs/RustTemplate/style.css");
-        if let Some(display) = gdk::Display::default() {
-            gtk::StyleContext::add_provider_for_display(
-                &display,
-                &provider,
-                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
-            );
-        }
-    }
-
     fn show_about_dialog(&self) {
-        let dialog = gtk::AboutDialog::builder()
-            .logo_icon_name(APP_ID)
-            // Insert your license of choice here
-            // .license_type(gtk::License::MitX11)
-            // Insert your website here
-            // .website("https://gitlab.gnome.org/bilelmoussaoui/RustTemplate/")
-            .version(VERSION)
-            .transient_for(&self.main_window())
-            .translator_credits(gettext("translator-credits"))
-            .modal(true)
-            .authors(vec!["Jamie Murphy"])
-            .artists(vec!["Jamie Murphy"])
-            .build();
-
-        dialog.present();
+        he::AboutWindow::new(
+            &self.active_window().expect("Expected an Active Window"),
+            &(gettext("Rust Template") + NAME_SUFFIX),
+            APP_ID,
+            VERSION,
+            APP_ID,
+            Some("https://weblate.fyralabs.com/addons/tauOS/rust-template/"),
+            Some("https://github.com/tau-OS/rust-template/issues"),
+            Some("https://github.com/tau-OS/rust-template"),
+            &vec!["Fyra Labs", &gettext("translator-credits")],
+            &vec!["Fyra Labs"],
+            2023,
+            he::AboutWindowLicenses::Gplv3,
+            he::Colors::Purple,
+        )
+        .present();
     }
 
     pub fn run(&self) -> glib::ExitCode {
         info!("Rust Template ({})", APP_ID);
-        info!("Version: {} ({})", VERSION, PROFILE);
-        info!("Datadir: {}", PKGDATADIR);
+        info!("Version: {} {}", VERSION, NAME_SUFFIX);
 
         ApplicationExtManual::run(self)
     }
 }
 
-impl Default for ExampleApplication {
+impl Default for Application {
     fn default() -> Self {
         glib::Object::builder()
             .property("application-id", APP_ID)
-            .property("resource-base-path", "/com/fyralabs/RustTemplate/")
+            .property("resource-base-path", APP_PATH)
             .build()
     }
 }

@@ -1,6 +1,6 @@
 project(
-  'RustTemplate',
-  'rust',
+  'rust-template',
+  ['c', 'rust'],
   version: '0.1.0',
   meson_version: '>= 0.59',
   # license: 'MIT',
@@ -14,6 +14,7 @@ base_id = 'com.fyralabs.RustTemplate'
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')
 dependency('gtk4', version: '>= 4.0.0')
+dependency('libhelium-1', version: '>= 1.3.0')
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
@@ -21,13 +22,10 @@ desktop_file_validate = find_program('desktop-file-validate', required: false)
 appstream_util = find_program('appstream-util', required: false)
 cargo = find_program('cargo', required: true)
 
-version = meson.project_version()
+bindir = get_option('prefix') / get_option('bindir')
+localedir = get_option('prefix') / get_option('localedir')
 
-prefix = get_option('prefix')
-bindir = prefix / get_option('bindir')
-localedir = prefix / get_option('localedir')
-
-datadir = prefix / get_option('datadir')
+datadir = get_option('prefix') / get_option('datadir')
 pkgdatadir = datadir / meson.project_name()
 iconsdir = datadir / 'icons'
 podir = meson.project_source_root() / 'po'
@@ -48,9 +46,12 @@ else
   application_id = base_id
 endif
 
+# Convert the app id to a GNOME style path identifier
+path_identifier = '/' + application_id.replace('.', '/')
+
 meson.add_dist_script(
   'build-aux/dist-vendor.sh',
-  meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + version,
+  meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + meson.project_version(),
   meson.project_source_root()
 )
 

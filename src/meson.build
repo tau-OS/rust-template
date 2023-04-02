@@ -1,15 +1,25 @@
-global_conf = configuration_data()
-global_conf.set_quoted('APP_ID', application_id)
-global_conf.set_quoted('PKGDATADIR', pkgdatadir)
-global_conf.set_quoted('PROFILE', profile)
-global_conf.set_quoted('VERSION', version + version_suffix)
-global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
-global_conf.set_quoted('LOCALEDIR', localedir)
+# Values defined here are accessible from within Rust.
+# This can be useful for setting build-time constants, such as the version or app id.
+# See the config.rs.in file for more information.
+
+config = configuration_data()
+config.set_quoted('APP_ID', application_id)
+config.set_quoted('APP_PATH', path_identifier)
+if get_option('profile') == 'default'
+  config.set_quoted('NAME_SUFFIX', '')
+else
+  config.set_quoted('NAME_SUFFIX', ' (Development)')
+endif
+config.set_quoted('VERSION', meson.project_version())
+config.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+config.set_quoted('LOCALEDIR', localedir)
+
 config = configure_file(
   input: 'config.rs.in',
   output: 'config.rs',
-  configuration: global_conf
+  configuration: config
 )
+
 # Copy the config.rs output to the source directory.
 run_command(
   'cp',

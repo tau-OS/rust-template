@@ -4,19 +4,19 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
-        <attribute name="action">app.preferences</attribute>
+        <attribute name="action">win.preferences</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
         <attribute name="action">win.show-help-overlay</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_About Rust Template</attribute>
+        <attribute name="label" translatable="yes">_About tauOS Rust Template</attribute>
         <attribute name="action">app.about</attribute>
       </item>
     </section>
   </menu>
-  <template class="ExampleApplicationWindow" parent="GtkApplicationWindow">
+  <template class="ApplicationWindow" parent="HeApplicationWindow">
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
         <child type="end">
