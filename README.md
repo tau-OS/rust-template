@@ -12,7 +12,7 @@ The quickest way to get started with libhelium & Rust.
 
 Welcome! Please see the various resources below. If you have any questions, our [Discord](https://discord.gg/BHNfGewTXX) is always open :)
 
-- [The tauOS HIG](https://developers.tauos.co/docs/hig)
+- [The Helium HIG](https://developers.tauos.co/docs/hig)
 - [libhelium's Rust Documentation](https://docs.developers.tauos.co/rust/libhelium/index.html)
 
 > **Note**
